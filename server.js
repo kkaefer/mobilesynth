@@ -20,8 +20,8 @@ io.sockets.on('connection', function (socket) {
     var device = new Device(ids++);
     devices[device.id] = device;
     socket.emit('registration', { id: device.id });
-    socket.on('deviceorientation', function(data) { device.emit('orientation', data); });
-    socket.on('devicemotion', function(data) { device.emit('motion', data); });
+    socket.on('orientation', function(data) { device.emit('orientation', data); });
+    socket.on('motion', function(data) { device.emit('motion', data); });
     socket.on('disconnect', function() { delete devices[device.id]; });
 });
 
