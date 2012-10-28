@@ -1,0 +1,49 @@
+body {
+    font-family: Helvetica;
+    font-size: 24px;
+}
+
+#main {
+    position:absolute;
+    top:0; right:0; bottom:0; left:0;
+    background:#FFF;
+}
+
+#bar {
+    background:#333;
+    padding:20px;
+}
+
+#type {
+    font-size:24px;
+}
+
+#buttons {
+    background:#CCC;
+    padding:20px;
+}
+
+#buttons input {
+    font-size:24px;
+}
+
+.pane {
+    display:table;
+    padding:20px;
+    width:100%;
+    position:absolute;
+    top:0;
+    bottom:0;
+
+}
+
+#ui {
+    position:relative;
+}
+
+#ui-potentiometer-value {
+    padding: 50px;
+    text-align:center;
+    font-size:48px;
+    font-weight:bold;
+}

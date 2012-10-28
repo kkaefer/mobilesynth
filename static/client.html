@@ -5,9 +5,27 @@
     <script type="text/javascript" src="/jquery.js"></script>
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="/client.js"></script>
+    <link rel="stylesheet" type="text/css" href="/client.css">
     <script>var client; $(function() { client = new Client(); });</script>
 </head>
 <body>
+
+<div id="main">
+    <div id="bar">
+        <select id="type">
+            <option value="potentiometer">Potentiometer</option>
+        </select>
+    </div>
+    <div id="buttons">
+        <input type="button" id="connect" value="Connect" default>
+    </div>
+
+    <div id="ui">
+        <div id="ui-potentiometer" class="pane">
+            <div id="ui-potentiometer-value">0.0º</div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
