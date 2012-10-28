@@ -24,9 +24,6 @@ io.sockets.on('connection', function (socket) {
     socket.emit('registration', { id: device.id });
     socket.on('orientation', function(data) { device.emit('orientation', data); });
     socket.on('motion', function(data) { device.emit('motion', data); });
-    socket.on('rewire', function(data) {
-    });
-    socket.on('disconnect', function() { delete devices[device.id]; });
     socket.on('disconnect', function() {
         graph.deleteNode(device.id);
         delete devices[device.id];
