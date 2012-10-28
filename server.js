@@ -29,7 +29,7 @@ function createClient(socket) {
     socket.on('orientation', function(data) { device.emit('orientation', data); });
     socket.on('motion', function(data) { device.emit('motion', data); });
     socket.on('disconnect', function() {
-        graph.deleteNode(device.id);
+        graph.removeNode(device.id);
         delete devices[device.id];
     });
     socket.on('client-type', function(type) {
@@ -41,9 +41,7 @@ function createClient(socket) {
             pendingGraphSource = device.id;
             console.info('graph source: ' + device.id.toString());
         } else {
-            graph.deleteNode(pendingGraphSource);
-            graph.deleteNode(device.id);
-            graph.push([pendingGraphSource, device.id]);
+            graph.addEdge(pendingGraphSource, device.id);
             console.info('graph connection: ' + pendingGraphSource + ' -> ' + device.id.toString());
             pendingGraphSource = null;
         }
