@@ -31,6 +31,7 @@ function createClient(socket) {
     socket.on('disconnect', function() {
         graph.removeNode(device.id);
         delete devices[device.id];
+        updateSynth();
     });
     socket.on('client-type', function(type) {
         // Either 'oscillator' or 'potentiometer'
@@ -48,6 +49,9 @@ function createClient(socket) {
         }
         updateSynth();
     });
+    device.on('change', function() {
+        if (synth) synth.socket.emit('device', device);
+    });
 }
 
 function createSynth(socket) {
@@ -63,7 +67,7 @@ function updateSynth() {
 
     synth.socket.emit('wiring', {
         graph: graph.serialize(),
-        nodes: devices
+        devices: devices
     });
 }
 

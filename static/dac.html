@@ -55,6 +55,7 @@ Oscillator.prototype.connect = function(other) {
 };
 
 function DAC () {
+    var dac = this;
     Device.apply(this, arguments);
     this.node = ctx;
     this.devices = {};
@@ -62,7 +63,12 @@ function DAC () {
     this.socket = io.connect();
     this.socket.emit('type', 'synth');
     this.socket.on('wiring', function(wiring) {
+        dac.graph = wiring.graph;
+        dac.devices = wiring.devices;
         console.warn(wiring);
+    });
+    this.socket.on('device', function(device) {
+        dac.devices[device.id] = device;
     });
 }
 
