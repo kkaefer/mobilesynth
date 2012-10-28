@@ -63,9 +63,9 @@ function DAC () {
     this.socket = io.connect();
     this.socket.emit('type', 'synth');
     this.socket.on('wiring', function(wiring) {
-        dac.graph = wiring.graph;
-        dac.devices = wiring.devices;
         console.warn(wiring);
+        dac.updateDevices(wiring.devices);
+        dac.updateGraph(wiring.graph);
     });
     this.socket.on('device', function(device) {
         dac.devices[device.id] = device;
@@ -73,6 +73,36 @@ function DAC () {
 }
 
 DAC.prototype = Device.prototype;
+
+DAC.prototype.updateDevices = function(devices) {
+    var device;
+    for (var id in devices) {
+        if (!(id in this.devices)) {
+            // New device
+            if (devices[id].type === "oscillator") {
+                device = new Oscillator(id);
+            } else {
+                device = new Knob(id);
+                device.setLevel(devices[id].)
+            }
+            this.devices[id] = device;
+        } else {
+            device = this.devices[id];
+        }
+        var orientation = devices[id].orientation.alpha;
+        if (device instanceof Knob) {
+            device.setValue(orientation);
+        }
+    }
+};
+
+DAC.prototype.updateGraph = function(graph) {
+    for (idPair in graph.edges) {
+        // Just connect all nodes that have edges. connect() is idempotent.
+        var src = idPair[0], target = idPair[1];
+        this.devices[src].connect(this.devices[target]);
+    }
+};
 
 init();
 </script>
