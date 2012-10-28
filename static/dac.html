@@ -61,6 +61,9 @@ function DAC () {
 
     this.socket = io.connect();
     this.socket.emit('type', 'synth');
+    this.socket.on('wiring', function(wiring) {
+        console.warn(wiring);
+    });
 }
 
 DAC.prototype = Device.prototype;

@@ -46,13 +46,24 @@ function createClient(socket) {
             console.info('graph connection: ' + pendingGraphSource + ' -> ' + device.id.toString());
             pendingGraphSource = null;
         }
+        updateSynth();
     });
 }
 
 function createSynth(socket) {
     synth = new Synth(socket);
+    updateSynth();
     socket.on('disconnect', function() {
         synth = null;
+    });
+}
+
+function updateSynth() {
+    if (!synth) return;
+
+    synth.socket.emit('wiring', {
+        graph: graph.serialize(),
+        nodes: devices
     });
 }
 

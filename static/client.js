@@ -35,7 +35,7 @@ Client.prototype.setupUI = function() {
         client.resetConfiguration();
     });
 
-    $('#rewire').on('touchstart', function() {
+    $('#rewire').on('touchstart click', function() {
         client.socket.emit('rewire');
     });
 
