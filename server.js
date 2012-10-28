@@ -5,6 +5,7 @@ var socketio = require('socket.io');
 
 var Device = require('./lib/device');
 var Graph = require('./lib/graph');
+var Synth = require('./lib/synth');
 
 var app = express();
 var server = http.createServer(app);
@@ -14,11 +15,14 @@ var io = socketio.listen(server);
 app.use('/', express['static'](__dirname + '/static'));
 
 // Web Socket Server
+var synth = null;
 var devices = {};
 var graph = new Graph();
 var pendingGraphSource;
 var ids = 1;
-io.sockets.on('connection', function (socket) {
+
+
+function createClient(socket) {
     var device = new Device(ids++);
     devices[device.id] = device;
     socket.emit('registration', { id: device.id });
@@ -39,6 +43,23 @@ io.sockets.on('connection', function (socket) {
             graph.push([pendingGraphSource, device.id]);
             console.info('graph connection: ' + pendingGraphSource + ' -> ' + device.id.toString());
             pendingGraphSource = null;
+        }
+    });
+}
+
+function createSynth(socket) {
+    synth = new Synth(socket);
+    socket.on('disconnect', function() {
+        synth = null;
+    });
+}
+
+io.sockets.on('connection', function (socket) {
+    socket.on('type', function(type) {
+        if (type == 'synth') {
+            createSynth(socket);
+        } else if (type == 'client') {
+            createClient(socket);
         }
     });
 });

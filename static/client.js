@@ -6,6 +6,7 @@ function Client() {
     client.resetConfiguration();
 
     client.socket = io.connect();
+    client.socket.emit('type', 'client');
     client.socket.on('registration', function (data) {
         client.id = data.id;
         client.startMessaging();
