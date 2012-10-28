@@ -13,16 +13,20 @@
 <div id="main">
     <div id="bar">
         <select id="type">
-            <option value="potentiometer">Potentiometer</option>
+            <option value="potentiometer" default>Potentiometer</option>
+            <option value="oscillator">Oscillator</option>
         </select>
     </div>
     <div id="buttons">
-        <input type="button" id="rewire" value="Rewire" default>
+        <input type="button" id="rewire" value="Rewire">
     </div>
 
     <div id="ui">
         <div id="ui-potentiometer" class="pane">
             <div id="ui-potentiometer-value">0.0º</div>
+        </div>
+        <div id="ui-oscillator" class="pane">
+            Oscillator
         </div>
     </div>
 </div>

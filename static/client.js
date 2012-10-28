@@ -3,12 +3,12 @@ function Client() {
 
     $('body').on('touchmove', function(e) { e.preventDefault(); });
 
-    client.resetConfiguration();
 
     client.socket = io.connect();
     client.socket.emit('type', 'client');
     client.socket.on('registration', function (data) {
         client.id = data.id;
+        client.resetConfiguration();
         client.startMessaging();
         client.setupUI();
     });
@@ -49,8 +49,12 @@ Client.prototype.resetConfiguration = function() {
     var client = this;
     client.type = $('#type').val();
 
+    client.socket.emit('client-type', client.type);
+
     $('.pane').hide();
     if (client.type == 'potentiometer') {
         $('#ui-potentiometer').show();
+    } else if (client.type == 'oscillator') {
+        $('#ui-oscillator').show();
     }
 };

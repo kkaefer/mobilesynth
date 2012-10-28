@@ -32,6 +32,9 @@ function createClient(socket) {
         graph.deleteNode(device.id);
         delete devices[device.id];
     });
+    socket.on('client-type', function(type) {
+        // Either 'oscillator' or 'potentiometer'
+    });
     socket.on('rewire', function() {
         console.warn('rewiring', device.id);
         if(!pendingGraphSource || pendingGraphSource == device.id) {
