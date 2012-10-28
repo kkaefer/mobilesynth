@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script type="application/javascript">
+function init() {
+    ctx = new webkitAudioContext();
+    dac = new DAC();
+}
+
+function Device (id) {
+    this.id = id;
+    this.output = null;
+    this.node = null;
+}
+
+Device.prototype = {};
+
+Device.prototype.connect = function(otherDevice) {
+    throw "Not implemented";
+}
+
+
+function Knob () {
+    Device.apply(this, arguments);
+}
+
+Knob.prototype = Device.prototype;
+Knob.prototype.connect = function(other) {
+    if (other instanceof Oscillator) {
+        other.setValue(knob.value);
+    } else {
+        console.log("Cannot connect Knob with " + other);
+    }
+}
+
+
+function Oscillator () {
+    Device.apply(this, arguments);
+    this.node = ctx.createOscillator();
+}
+
+Oscillator.prototype = Device.prototype;
+
+Oscillator.prototype.setValue = function(value) {
+    this.node.frequency.value = value;
+};
+
+Oscillator.prototype.connect = function(other) {
+    if (other instanceof DAC) {
+        this.node.connect(ctx.destination);
+    } else {
+        throw "Cannot connect OSC with " + other;
+    }
+};
+
+function DAC () {
+    Device.apply(this, arguments);
+    this.node = ctx;
+    this.devices = {};
+
+    this.socket = io.connect();
+    this.socket.emit('type', 'synth');
+}
+
+DAC.prototype = Device.prototype;
+
+init();
+</script>
+</head>
+</html>
