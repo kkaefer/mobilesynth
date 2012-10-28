@@ -34,6 +34,7 @@ function createClient(socket) {
     });
     socket.on('client-type', function(type) {
         // Either 'oscillator' or 'potentiometer'
+        device.type = type;
     });
     socket.on('rewire', function() {
         console.warn('rewiring', device.id);
