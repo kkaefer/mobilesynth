@@ -34,8 +34,8 @@ Client.prototype.setupUI = function() {
         client.resetConfiguration();
     });
 
-    $('#connect').on('touchstart', function() {
-        client.socket.emit('connect-control');
+    $('#rewire').on('touchstart', function() {
+        client.socket.emit('rewire');
     });
 
     var potentiometerValue = $('#ui-potentiometer-value');

@@ -22,6 +22,9 @@ io.sockets.on('connection', function (socket) {
     socket.emit('registration', { id: device.id });
     socket.on('orientation', function(data) { device.emit('orientation', data); });
     socket.on('motion', function(data) { device.emit('motion', data); });
+    socket.on('rewire', function(data) {
+        console.warn('rewiring', device.id);
+    });
     socket.on('disconnect', function() { delete devices[device.id]; });
 });
 
