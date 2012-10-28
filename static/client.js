@@ -1,6 +1,6 @@
 function Client() {
     var client = this;
-    client.socket = io.connect('http://localhost');
+    client.socket = io.connect();
     client.socket.on('registration', function (data) {
         client.id = data.id;
         client.startMessaging();
